@@ -1,0 +1,88 @@
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+
+{% block sidebar %}
+{%  include "navigation.html" %}
+{% endblock %} 
+{% block content %} 
+
+ 
+                 <div class="card mb-3"> 
+                         
+ 
+                        <div class="card-body"> 
+                                <h2 class="card-title">{{ mocktest.title }}</h2> 
+                        
+                                <p class="=card-text"> {{ mocktest.description|safe }}</p>
+                                <p class="=card-text"> {{ mocktest.guidelines|safe }}</p>
+                         </div>
+                     </div>
+                 
+                   
+                     
+                    <div class="row">
+                            <div class="col-md-12"> 
+                                    <div class="card mb-3"> 
+                                        <div class="card-header">
+                                                <h5>Mock Test Sections</h5>
+                                        </div> 
+                                             
+                                    {%  for mocktestsection in mocktestsections %}
+                                   
+                                          
+                                                    <div class="container-fluid card-body">
+                                                         <h4 class="card-title">{{ mocktestsection.title }}</h4>
+                                                         <p  class="card-text"> {{ mocktestsection.subtitle }}</p>
+                                                         <h6   class="card-text">Test Duration: {{ mocktestsection.test_time_minutes|safe }}  </h6>
+                                                         <h6   class="card-text">Passing Mark: {{ mocktestsection.passing_mark|safe }} points / {{ mocktestsection.total_no_of_items|safe }} items </h6> 
+                                                         <h6   class="card-text">Attempts: {{ mocktestsection.no_of_attempts }} / {{ mocktestsection.max_no_of_attempts }}  </h6>
+                                                         <!-- <p  class="card-text"> {{ mocktestsection.description|safe }}</p> -->
+                                                         <!-- <p  class="card-text"> {{ mocktestsection.guidelines|safe }}</p> -->
+                                                        <br/>
+                                                        <div class="row">
+                                                                <div class="col-md-12">    
+                                                                                <p><a  class="btn btn-secondary btn-sm" href="{% url 'list_students_attempts_front' reviewprogram.id %}" role="button">View Evaluations &raquo;</a> 
+                                                                               
+                                                                        {% if  mocktestsection.no_of_attempts < mocktestsection.max_no_of_attempts %}
+                                                                                {% if  mocktestsection.password %}
+                                                                                <a  class="btn btn-primary btn-sm" href="{% url 'input_password' reviewprogram.id mocktest.id mocktestsection.id %}" role="button">Take Mock Test &raquo;</a> 
+                                                                                {% else %}
+                                                                                <a class="btn btn-primary btn-sm" href="{%  url 'view_mocktestsection' reviewprogram.id mocktest.id mocktestsection.id  %}" role="button">Take Mock Test &raquo;</a>
+                                                                                {% endif %}
+                                                                        {% else %}
+                                                                                <h4>No remaining attempts.</h4> 
+                                                                        {% endif %}
+                                                                
+                                                                </p></div>
+                                                        </div>
+                                                       
+                                                    </div> 
+                                          
+                                  
+                                
+                                    {% endfor %}
+                                                    
+                                 </div>
+                            </div>
+ 
+
+                 
+                     
+                           
+                     
+            </div>
+            
+                   
+             
+      
+ 
+
+ 
+{% endblock %}
+
+
+
+

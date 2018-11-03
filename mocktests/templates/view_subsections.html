@@ -1,0 +1,87 @@
+{% extends 'cmsbase.html' %}
+
+{% load staticfiles %}
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+  <li><a href="{% url 'list_mocktests' reviewprogram.id %}">Mock Tests</a></li>
+  <li><a href="{% url 'edit_mocktest' reviewprogram.id mocktest.id %}">{{ mocktest.title }}</a></li>
+  <li><a href="{% url 'view_sections' reviewprogram.id mocktest.id %}">Sections</a></li>
+  <li><a href="{% url 'edit_section' reviewprogram.id mocktest.id mocktestsection.id %}">{{ mocktestsection.title }}</a></li>
+  <li class="active">Sub Sections</li>
+</ul>
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}   
+ 
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Viewing Sub Sections for {{ mocktestsection.title }}</h4>
+                        <p class="category">Sub Sections List</p>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-striped datatable">
+                            {% if mocktest_subsections %}
+                            <thead>
+                                <th>Title</th>
+                              <th>Overview</th>
+                              
+                            </thead>
+                            <tbody>
+                               
+                                {% for mocktest_subsection in mocktest_subsections %}
+                                      <tr class='clickable-row' data-href='{% url "edit_subsection" reviewprogram.id mocktest.id mocktestsection.id mocktest_subsection.id %}'>
+                                         
+                                  
+                                          <td><b>{{ mocktest_subsection.title }} </b> </td>
+                                          <td>{{ mocktest_subsection.description|safe }}</td>
+                                        
+                                        </tr> 
+                                  
+                                {% endfor %}
+                              {% endif %}
+                            
+                                
+                                
+                            </tbody>
+                        </table>
+      
+                    </div>
+                    <div class="card footer">
+                        <a href="{% url 'create_subsection' reviewprogram.id mocktest.id mocktestsection.id %}">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create New Sub Section
+                          </a>  
+                    </div>
+                    
+                </div>
+            </div>
+            
+      
+            
+      
+        </div>
+      </div>
+        
+     
+    {% endblock %}  
+    {% block javascript %}
+    <script>
+      jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+    </script>
+    {% endblock %}
+    

@@ -1,0 +1,44 @@
+{% extends 'cmsbase.html' %}
+{% load crispy_forms_tags %} 
+{% load staticfiles %}
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li class="active">New Review Program</li>
+</ul>
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+
+
+{% block content %}
+<div class="card">
+  <div class="header">
+      <h4 class="title">New Review Program</h4>
+  </div>
+  <div class="content">
+  <form class="center" action="{% url 'create_reviewprogram' %}"
+  method="POST" enctype="multipart/form-data"> 
+  {% csrf_token %}
+  {{ form.media }}
+  {{form|crispy}}
+  <div class="row">
+      <div id="image-holder" class="col-md-5">
+      </div>
+    </div>
+  {% block additional_forms %}{% endblock %}
+  <button class="btn btn-primary" id="submit" type="submit">Create</button>
+
+  </form>      
+</div> 
+</div>
+  
+{% endblock %}
+
+{% block javascript %} 
+  <script type="text/javascript"  src="{% static 'javascript/libs/imagepreview.js' %}"></script> 
+{% endblock %}

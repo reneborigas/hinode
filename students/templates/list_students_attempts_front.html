@@ -1,0 +1,191 @@
+ {% extends 'base.html' %}
+{% load staticfiles %}
+{% block stylesheet %}  
+
+<style>
+    .score-icon{
+    padding: 0.4rem;
+}
+.score-item{
+    padding: 0.5rem;
+    font-size: 18px;
+}
+.score-group{
+    /* width:250px; */
+    position: relative;
+}
+
+</style>
+{% endblock %}
+
+{% block sidebar %}
+{%  include "navigation.html" %}
+{% endblock %} 
+
+{% block brand %}
+Evaluations
+{% endblock %}
+
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li class="active"><a href="{% url 'list_enrollments' %}">Enrollments</a></li>  
+    <li>{{ student.user.get_full_name }}</li>
+</ul> 
+{% endblock %}
+   
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}
+<div class="container-fluid" >
+  <div class="row">
+      <div class="col-md-12">
+            <div class="card mb-3">
+                    <div class="card-header">
+                        <h4 class="title">Review Program Assessment</h4> 
+                    </div> 
+                  <div class="content card-body">
+                          <div class="row">
+                                  <div class="col-sm-3">
+                                      <h5><p class="category">Student</p>{{ student.user.get_full_name }}</h5> 
+                                  </div>
+                                  <div class="col-sm-3"> 
+                                      <h5><p class="category">Email</p>{{ student.user.email }}</h5>  
+                                  </div>
+                                  <div class="col-sm-3"> 
+                                      <h5><p class="category">Review Program</p>{{ student.reviewprogram.title }}</h5>  
+                                  </div>
+                                    <div class="col-sm-3"> 
+                                            <h5><p class="category">Mock Tests</p>{{ student.reviewprogram.mocktest_set.count }} Mock Tests</h5>  
+                                    </div>
+                                     
+                          </div>
+       
+      
+                  </div> 
+      
+                   
+                    <div class="card footer">
+                      
+                    </div>
+                    
+                </div>
+
+
+         {% if mocktests %}
+
+         {% for mocktest in mocktests %}
+          <div class="card">
+              <div class="card-header">
+                  <h4 class="title">Mock Test: {{mocktest.title}}</h4>
+                  <p class="category">{{mocktest.title}} Sections List</p>
+              </div> 
+              <div class="content card-body"> 
+                 {% for mocktestsection in mocktest.mocktestsections  %}
+                   
+                            <div class="card"> 
+                                    <div class="content table-responsive table-full-width">
+                                        <table class="table table-striped">
+                                                {% if mocktestsection.attempts %}
+                                               
+                                                <thead>
+                                                        <th><b>{{ mocktestsection.title }}</b></th>
+                                                        
+                                                        {% for mocktestsubsection in mocktestsection.mocktestsubsection_set.all %}
+                                                        <th>{{  mocktestsubsection.title }}</th>
+                                                        {% endfor%}
+                                                        <th>Action</th>
+                                                      </thead>
+                                                      <tbody>  
+                                                      <tr>
+                                                            <td> </td>
+                                                            {% for mocktestsubsection in mocktestsection.mocktestsubsection_set.all %}
+            
+                                                            <td class='score-group'  > <span class="ti-list score-icon"></span>  <span class="ti-check  score-icon"></span> <span class="ti-close  score-icon"></span>      </td>
+                                                            {% endfor%} 
+                                                            <td></td>   
+                                                        
+                                                    </tr> 
+                                                      
+                                                            {% for attempt in mocktestsection.attempts  %}
+
+                                                            
+                           
+                                                                <tr>
+                                                                      <td><b>Attempt Date: {{ attempt.attempt_date|date }} {{ attempt.start_time }} <br> {{ attempt.totalitems }} items, {{ attempt.totalscore }} correct, {{ attempt.wrong }} wrong   </b> </td>
+                                                                      {% for score in attempt.scores %}
+                                                                      <td class='clickable-row score-group' data-href='{% url "view_attempt" attempt.id  %}'>
+                                                                          <div><b>    
+                                                                              <span class=" score-item">{{ score.totalitems }}</span>
+                                                                              <span class=" score-item"> {{ score.score }}</span>
+                                                                              <span class=" score-item">{{ score.wrong }}</span> </b>
+                                                                          </div>
+                                                                          
+                                                                      </td>
+                                                                      {% endfor%} 
+
+                                                                      <td><a class="btn btn-primary"  href="{% url 'view_attempt_front' attempt.id  %}">View Details</a></td>
+                                                                  </tr> 
+                                                                  
+
+                                                                  
+                                                         {% endfor%}   
+                                                         <tr>
+                                                                <td> </td>
+                                                                {% for mocktestsubsection in mocktestsection.mocktestsubsection_set.all %}
+                
+                                                                <td class='score-group'  > <span class="ti-list score-icon"></span>  <span class="ti-check  score-icon"></span> <span class="ti-close  score-icon"></span>      </td>
+                                                                {% endfor%} 
+                                                                <td></td>   
+                                                            
+                                                        </tr> 
+                                                       
+                                                        {% endif %}
+                                                      
+                                                          
+
+
+
+                                                          
+                                                      </tbody>
+                                        </table>
+                                        
+                                         
+                                    </div>
+                    
+                    
+                                    <div class="card footer">
+                                        
+                                    </div>
+                                    
+                                </div>
+                        
+
+                                {% endfor %}
+
+                    </div>
+
+
+              <div class="card footer">
+                  
+              </div>
+              
+          </div>
+              
+          {% endfor %}
+          {% endif %}
+      </div>
+      
+
+      
+
+  </div>
+</div>
+   
+  {% endblock %}
+
+  {% block javascript %}
+ 
+ 
+  {% endblock %}

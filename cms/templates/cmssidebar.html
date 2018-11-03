@@ -1,0 +1,81 @@
+<div class="sidebar" data-background-color="white" data-active-color="danger">
+
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+    {% url 'home' as home %}
+    {% url 'dashboard' as dashboard %}
+    {% url 'about' as about %}
+    {% url 'contact' as contact %}
+    {% url 'instructor_reviewprograms' as instructor_reviewprograms %}
+    {% url 'edit_reviewprogram' as edit_reviewprogram %}
+    {% url 'list_attempts' as list_attempts %}
+    {% url 'view_attempt' as view_attempt %}
+    {% url 'list_students' as list_students %}
+    {% url 'list_enrollments' as view_attempt %}
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="http://www.aeonsitsolutions.com" class="simple-text">
+                    JLPT Review Program
+                </a>
+            </div>
+
+            <ul class="nav">
+                <li class="{% if '/dashboard/' in request.path   %}} active {% endif %} ">
+                    <a href="{% url 'dashboard' %}">
+                        <i class="ti-dashboard"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li> 
+                <li class="{% if '/manage/' in request.path or  '/reviewprograms/' in request.path %} active {% endif %} ">
+                    <a href="{% url 'instructor_reviewprograms' %}">
+                        <i class="ti-book"></i>
+                        <p>Manage Contents</p>
+                    </a>
+                </li>
+                <li class="{% if '/results/' in request.path   %} active {% endif %} ">
+                        <a href="{% url 'list_attempts' %}">
+                            <i class="ti-view-list-alt"></i>
+                            <p>Evaluations</p>
+                        </a>
+                </li>
+
+                <li class="{%  if '/students/' in request.path %} active {% endif %} ">
+                    <a href="{% url 'list_students' %}">
+                    <i class="ti-user"></i>
+                    <p>Students</p>
+                </a>
+                </li>
+                <li class="{%  if '/enrollments/' in request.path %} active {% endif %} ">
+                    <a href="{% url 'list_enrollments' %}">
+                    <i class="ti-notepad"></i>
+                    <p>Enrollment List</p>
+                </a>
+                </li>
+                <li class="{% if '/reports/' in request.path   %}} active {% endif %} ">
+                        <a href="{% url 'instructor_reviewprograms' %}">
+                            <i class="ti-menu"></i>
+                            <p>Reports</p>
+                        </a>
+                </li>
+
+            
+
+                <!-- <li class="{% if request.path == profile %} active {% endif %} ">
+                        <a href="{% url 'profile' %}">
+                        <i class="ti-user"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li> -->
+               
+                <li class="{% if request.path == about %} active {% endif %} ">
+                    <a href="{% url 'about' %}">
+                        <i class="ti-info"></i>
+                        <p>About</p>
+                    </a>
+                </li>
+				 
+            </ul>
+    	</div>
+    </div>

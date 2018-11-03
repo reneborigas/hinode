@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+
+{% block stylesheet %}  
+
+<style>
+    .score-icon{
+    padding: 0.4rem;
+}
+.score-item{
+    padding: 0.5rem;
+    font-size: 18px;
+}
+.score-group{
+    /* width:250px; */
+    position: relative;
+}
+
+</style>
+{% endblock %}
+
+{% block sidebar %}
+{%  include "navigation.html" %}
+{% endblock %} 
+
+{% block brand %}
+Evaluations
+{% endblock %}
+
+
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li class="active"><a href="{% url 'list_attempts' %}">Tests Results</a></li> 
+  <li class="active">{{attempt.mocktestsection.mocktest.reviewprogram}}</li> 
+  
+  <li>{{ attempt.mocktestsection.mocktest }}</li>
+</ul> 
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}
+<div class="container-fluid" >
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card mb-3">
+              <div class="card-header">
+                  <h4 class="title">{{ attempt.mocktestsection }}</h4>
+                  <p class="category">{{attempt.attempt_date|date}} {{attempt.start_time|time}}</p>
+              </div> 
+            <div class="content card-body">
+                    <div class="row">
+                            <div class="col-sm-3">
+                                <h5><p class="category">Student</p>{{ attempt.user.get_full_name }}</h5> 
+                            </div>
+                            <div class="col-sm-3"> 
+                                <h5><p class="category">Email</p>{{ attempt.user.email }}</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                <h5><p class="category">Review Program</p>{{ attempt.mocktestsection.mocktest.reviewprogram }}</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Mock Test</p>{{ attempt.mocktestsection.mocktest }}</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Section</p>{{ attempt.mocktestsection }}</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Start Time</p>{{ attempt.start_time|time }}</h5>  
+                            </div>  
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">End Time</p>{{ attempt.end_time|time }}</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Attempt Duration</p>{{ attempt.totaltime }}</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Attempts</p>{{ attemptcount.count  }} / {{ attempt.mocktestsection.max_no_of_attempts}} attempts</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Score</p>{{ attempt.totalscore }} / {{ attempt.totalitems }} items</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Remarks</p>{{attempt.getresult}}</h5>  
+                            </div>
+                            <div class="col-sm-3"> 
+                                    <h5><p class="category">Status</p>{{attempt.getstatus}}</h5>  
+                            </div>
+                    </div>
+ 
+
+            </div> 
+
+             
+              <div class="card footer">
+                
+              </div>
+              
+          </div>
+
+          <div class="card mb-3">
+                <div class="card-header">
+                    <h4 class="title">Sub Sections</h4>
+                    <p class="category">{{attempt.mocktestsection }}</p>
+                </div> 
+                <div class="content card-body table-responsive table-full-width">
+                        <table class="table table-striped">
+                            {% if scores %}
+                            <thead>
+                              <th><b>{{attempt.mocktestsection }}</b></th>
+                              
+                              {% for score in scores %}
+                              <th>{{ score.mocktestsubsection }}</th>
+                              {% endfor%}
+                            </thead>
+                            <tbody> 
+ 
+                                      <tr>
+                                            <td><b>{{ attempt.totalitems }} items, {{ attempt.totalscore }} correct, {{ attempt.wrong }} wrong   </b> </td>
+                                            {% for score in scores %}
+                                            <td class='clickable-row score-group' data-href='{% url "view_attempt" attempt.id  %}'>
+                                                <div><b>    
+                                                    <span class=" score-item">{{ score.totalitems }}</span>
+                                                    <span class=" score-item"> {{ score.score }}</span>
+                                                    <span class=" score-item">{{ score.wrong }}</span> </b>
+                                                </div>
+                                                
+                                            </td>
+                                            {% endfor%} 
+                                        
+                                        </tr> 
+                                        <tr>
+                                                <td> </td>
+                                                {% for score in scores %}
+
+                                                <td class='score-group'  > <span class="ti-list score-icon"></span>  <span class="ti-check  score-icon"></span> <span class="ti-close  score-icon"></span>      </td>
+                                                {% endfor%} 
+                                            
+                                        </tr> 
+                                   
+                              {% endif %}
+                            
+                                
+                                
+                            </tbody>
+                        </table>
+      
+                    </div>
+               
+                <div class="card footer">
+                  
+                </div>
+                
+            </div>
+      </div>
+      
+
+      
+
+  </div>
+</div>
+   
+  {% endblock %}
+
+  {% block javascript %}
+  <script>
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+      });
+  });
+  </script>
+  {% endblock %}

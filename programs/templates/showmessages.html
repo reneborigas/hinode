@@ -1,0 +1,15 @@
+{% for message in messages %}
+
+<script>
+  $(document).ready(function(){
+    $.notify({
+        icon: ' ',
+        message: "{{ message.message }}"
+
+    },{
+        type: 'success',
+        timer: 4000
+    });
+});
+</script>
+{% endfor %}

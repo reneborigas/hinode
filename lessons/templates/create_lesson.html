@@ -1,0 +1,51 @@
+{% extends 'cmsbase.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+ 
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs </a></li>
+  <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+  <li><a href="{% url 'list_lessons' reviewprogram.id %}">Lessons</a></li>
+  <li class="active">New Lesson</li>
+</ul>
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+{% block content %}
+    
+<div class="card">
+    <div class="header">
+        <h4 class="title">Create New Lesson</h4>
+    </div>
+    <div class="content">
+
+ 
+  <form class="center" action="{% url 'create_lesson' reviewprogram.id %}"
+  method="POST"> 
+  {% csrf_token %}
+  {{ form.media }}
+  {{form|crispy}}
+  {% block additional_forms %}{% endblock %}
+    <button class="btn btn-primary" id="submit" type="submit" name="create">
+       Create
+    </button>
+  </form>      
+  
+  </div>
+</div>
+{% endblock %}
+
+
+
+{% block javascript %} 
+<!-- <script type="text/javascript"  src="{% static 'javascript/libs/jquery.js' %}"></script>   -->
+<script type="text/javascript"  src="{% static 'javascript/libs/markitup/jquery.markitup.js' %}"></script>  
+<script type="text/javascript"  src="{% static 'javascript/libs/markitup/sets/default/set.js' %}"></script>  
+<script type="text/javascript"  src="{% static 'javascript/libs/datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>  
+<script type="text/javascript"  src="{% static 'javascript/base.js' %}"></script>  
+{% endblock %}
+ 

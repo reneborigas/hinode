@@ -1,0 +1,222 @@
+{% extends 'cmsbase.html' %}
+{% load staticfiles %}
+{% block brand %}
+Dashboard
+{% endblock %}
+{% block breadcrumbs %} 
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="card">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="icon-big icon-danger text-center">
+                                    <i class="ti-pencil"></i>
+                                </div>
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="numbers">
+                                    <p>On-Going Attempts</p>
+                                    {{ongoingattempts.count}}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <hr />
+                            <div class="stats">
+                                <i class="ti-reload"></i> Updated now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="icon-big icon-danger text-center">
+                                    <i class="ti-thumb-up"></i>
+                                </div>
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="numbers">
+                                    <p>Passed Results</p>
+                                    {{successfulresults.count}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <hr />
+                            <div class="stats">
+                                <i class="ti-timer"></i> In the last week
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="icon-big icon-danger text-center">
+                                    <i class="ti-thumb-down"></i>
+                                </div>
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="numbers">
+                                    <p>Failed Results</p>
+                                    {{failedresults.count}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <hr />
+                            <div class="stats">
+                                <i class="ti-timer"></i> In the last week
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div class="icon-big icon-danger text-center">
+                                    <i class="ti-user"></i>
+                                </div>
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="numbers">
+                                    <p>Registered Students</p>
+                                    {{students.count}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <hr />
+                            <div class="stats">
+                                <i class="ti-reload"></i> Updated now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Users Behavior</h4>
+                        <p class="category">24 Hours performance</p>
+                    </div>
+                    <div class="content">
+                        <div id="chartHours" class="ct-chart"></div>
+                        <div class="footer">
+                            <div class="chart-legend">
+                                <i class="fa fa-circle text-info"></i> Open
+                                <i class="fa fa-circle text-danger"></i> Click
+                                <i class="fa fa-circle text-warning"></i> Click Second Time
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-reload"></i> Updated 3 minutes ago
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Overall Test Results</h4>
+                        <p class="category">Active week period</p>
+                    </div>
+                    <div class="content">
+                        <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
+
+                        <div class="footer">
+                            <div class="chart-legend">
+                                <i class="ti-thumb-up text-info"></i> Passed
+                                <i class="ti-thumb-down text-danger"></i> Failed
+                                <i class="ti-pencil text-warning"></i> On-Going
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <!-- <i class="ti-timer"></i> Campaign sent 2 days ago -->
+                                <i class="ti-check"></i> Data information certified
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card ">
+                    <div class="header">
+                        <h4 class="title">Review Program Enrollees</h4>
+                        <p class="category">All enrollees from this year</p>
+                    </div>
+                    <div class="content">
+                        <div id="chartActivity" class="ct-chart"></div>
+
+                        <div class="footer">
+                            <div class="chart-legend">
+                                <i class="ti-menu text-info"></i> JLPT N4 Review Program
+                                <i class="ti-menu-alt text-warning"></i> JLPT N5 Review Program
+                            </div>
+                            <hr>
+                            <div class="stats">
+                                <i class="ti-check"></i> Data information certified
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="passed" value="{{successpercent}}"/>
+    <input type="hidden" id="failed" value="{{failedpercent}}"/>
+    <input type="hidden" id="ongoing" value="{{ongoingpercent}}"/>
+   
+  {% endblock %}
+
+  {% block javascript %}
+  <script type="text/javascript"  src="{% static 'javascript/cmscharts.js' %}"></script> 
+  <script>
+    var success = $("#passed").attr('value')
+    var failed = $("#failed").attr('value')
+    var ongoing = $("#ongoing").attr('value')
+    
+    var percentLabel = [ "Passed: " + success + "%"   ,  "On-going: " + ongoing + "%",  "Failed: " + failed + "%" ]
+
+    var percentSeries = [ success  , ongoing,failed]
+
+
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+      });
+  });
+
+    $(document).ready(function(){
+
+    cmscharts.initChartist();
+
+    });
+  </script>
+  {% endblock %}

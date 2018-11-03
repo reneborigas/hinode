@@ -1,0 +1,10 @@
+{% load crispy_forms_tags %}
+
+<form class="center" action="{% block form_action %}{% endblock %}"
+method="POST"> 
+{% csrf_token %}
+{{ form.media }}
+{{form|crispy}}
+{% block additional_forms %}{% endblock %}
+{% block button %}{% endblock %}
+</form>     

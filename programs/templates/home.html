@@ -1,0 +1,101 @@
+ 
+{% extends 'base.html' %}
+
+{% block slider %}
+<div class="jumbotron">
+
+<div class="row" >
+
+  <div class="col-md-6">
+      <div class="container-fluid">
+        <h1 class="display-3">Review Your Program</h1>
+        <h1 class="display-3">Simple and Effective</h1>
+        <br/>
+        <!-- <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p> -->
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div>
+
+    </div>
+    <div class="col-md-6"> 
+        {% load i18n %}
+        {% load account socialaccount %}
+         
+        <h1>{% trans "Sign In" %}</h1>
+        
+        {% get_providers as socialaccount_providers %}
+        
+        {% if socialaccount_providers %}
+        <p>{% blocktrans with site.name as site_name %}Please sign in with one
+        of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+        for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+        
+        <div class="socialaccount_ballot">
+        
+          <ul class="socialaccount_providers">
+            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+          </ul>
+        
+          <div class="login-or">{% trans 'or' %}</div>
+        
+        </div>
+        
+        {% include "socialaccount/snippets/login_extra.html" %}
+        
+        {% else %}
+        <p>{% blocktrans %}If you have not created an account yet, then please
+        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+        {% endif %}
+        
+        <form class="login" method="POST" action="{% url 'account_login' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+        </form>
+        
+        
+        
+
+    </div>
+  </div>
+</div> 
+       
+{% endblock%}
+
+ 
+{%  block content %} 
+
+
+       
+    <div class="container-fluid">
+            <p class="display-small">Trending Review Programs</p>
+          </div>
+      <div class="container-fluid">
+        <!-- Example row of columns -->
+        <div class="row">
+          <div class="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+          </div>
+        </div>
+
+        <hr>
+
+      </div>
+{%  endblock %}
+
+   

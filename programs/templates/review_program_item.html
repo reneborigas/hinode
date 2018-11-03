@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+
+ 
+{% block sidebar %}
+{%  include "navigation.html" %}
+{% endblock %} 
+
+{% block content %}  
+          
+                 <div class="card mb-3"> 
+                        <img class="card-img-top" src="{{  reviewprogram.image.url }}"> 
+ 
+                        <div class="card-body"> 
+                                <h2 class="card-title">{{ reviewprogram.title }}</h2> 
+                        
+                                <p class="=card-text"> {{ reviewprogram.overview|safe }}</p>
+                         </div>
+                     </div>
+                
+
+
+                            <!-- <div class="container-fluid"> 
+
+                                    <div class="jumbotron jumbotron-3" >
+                                      <div class="container">
+                                        <h2>{{ reviewprogram.title }}</h2>
+                                        
+                                      </div>
+                                    </div>
+                                   
+                                    
+                                    <div class="well">
+                                            <p> {{ reviewprogram.description }}</p>
+                                    </div>
+                            </div> 
+             -->
+         
+                   
+                     
+                    <div class="row">
+                            <div class="col-md-6"> 
+                                    <div class="card mb-3"> 
+                                        <div class="card-header">
+                                                <h5>Lessons</h5>
+                                        </div> 
+                                             
+                                    {%  for lesson in lessons %}
+                                   
+                                          
+                                                    <div class="container-fluid card-body">
+                                                         <h4 class="card-title">{{ lesson.title }}</h4>
+                                                         <p  class="card-text"> {{ lesson.overview|safe }}</p>
+                                             
+                                                        <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <p><a class="btn btn-primary btn-sm" href="{% url 'view_lesson' reviewprogram.id lesson.id %}" role="button">Open Lesson &raquo;</a></p>
+                                                                </div>
+                                                        </div>
+                                                       
+                                                    </div> 
+                                          
+                                  
+                                
+                                    {% endfor %}
+                                                    
+                                 </div>
+                            </div>
+
+                            <div class="col-md-6"> 
+                                    <div class="card mb-3"> 
+                                        <div class="card-header">
+                                                <h5>Mock Tests</h5>
+                                        </div> 
+                                             
+                                    {%  for mocktest in mocktests %}
+                                   
+                                          
+                                                    <div class="container-fluid card-body">
+                                                         <h4 class="card-title">{{ mocktest.title }}</h4>
+                                                         <p  class="card-text"> {{ mocktest.overview|safe }}</p>
+                                             
+                                                        <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <p><a class="btn btn-primary btn-sm" href="{% url 'view_mocktest' reviewprogram.id mocktest.id %}" role="button">View Mock Test &raquo;</a></p>
+                                                                </div>
+                                                        </div>
+                                                       
+                                                    </div> 
+                                          
+                                  
+                                
+                                    {% endfor %}
+                                                    
+                                 </div>
+                            </div>
+
+
+                 
+                     
+                           
+                     
+            </div>
+            
+                   
+             
+   
+ 
+{% endblock %}
+ 
+ 

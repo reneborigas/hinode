@@ -1,0 +1,94 @@
+{% extends 'cmsbase.html' %}
+{% load staticfiles %}
+{% block stylesheet %}  
+{% endblock %}
+{% block brand %}
+Enrollments
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li class="active">Enrollments</li> 
+</ul> 
+{% endblock %}
+   
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}
+<div class="container-fluid" >
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="header">
+                  <h4 class="title">Enrollments</h4>
+                  <p class="category">Most Recent Attempts List</p>
+              </div>
+              <div class="content table-responsive table-full-width">
+                  <table class="table table-striped datatable">
+                      {% if students %}
+                      <thead>
+                        <th>Student</th>
+                        <th>Email</th>
+                        <th>Review Program</th>
+                        <th>Date Enrolled</th> 
+                         
+                        <th>Enrollment Status</th>
+                        <th>Action</th>
+                        
+                      </thead>
+                      <tbody>
+                     
+                          {% for student in students %}
+                                <tr  >
+                                   
+                            
+                                    <td>{{ student.user.get_full_name }} </td>
+                                    <td>{{ student.user.email}}</td>
+                                    <td>{{ student.reviewprogram.title }}  </td> 
+                                    <td>{{ student.date_created|date }}  </td>
+                                   
+                                    <td>{{ student.getstatus}} </td>
+                                    <td><a class="btn btn-primary"  href="{% url 'list_students_attempts' student.user.id student.reviewprogram.id  %}">View Details</a></td>
+                                 
+                                  </tr> 
+                            
+                          {% endfor %}
+                        {% endif %}
+                      
+                          
+                          
+                      </tbody>
+                  </table>
+
+              </div>
+              <div class="card footer">
+                    <a href="{% url 'create_student' %}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Create New Student Record
+                    </a> 
+                </div>
+              
+          </div>
+      </div>
+      
+
+      
+
+  </div>
+</div>
+   
+  {% endblock %}
+
+  {% block javascript %}
+ 
+  <script>
+  
+  
+
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+      });
+  });
+  </script>
+  {% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'cmsbase.html' %}
+{% load crispy_forms_tags %}  
+{% load staticfiles %}
+{% block brand %}
+Students
+{% endblock %}
+{% block breadcrumbs %} 
+<ul class="breadcrumb">
+    <li><a class="" href="{% url 'list_students' %}">Students</a></li>
+    <li class="active">{{ student.get_full_name }}</li>
+</ul>
+ 
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+{% block content %} 
+
+ <div class="card">
+    <div class="header">
+        <h4 class="title">Editing Student Record: {{ student.get_full_name }}</h4>
+    </div>
+    <div class="content">
+
+  <form class="center" action="{% url 'edit_student' student.id %}"
+  method="POST"  enctype="multipart/form-data"> 
+  {% csrf_token %}
+  {{ form.media }}
+  {{ form|crispy }}
+  
+  <div class="row">
+      <div id="image-holder" class="col-md-5">
+      </div>
+    </div>
+  {% block additional_forms %}{% endblock %}
+ 
+    <button class="btn btn-primary" id="submit" type="submit" name="update">
+      Update
+    </button> 
+    <button class="btn btn-danger" id="delete" name="delete"
+      onclick="return confirmDelete()">
+      Delete
+    </button>
+  
+  </form>    
+</div>
+<div class="card footer">
+  
+</div>
+</div>
+<div class="card">
+  <div class="content">  
+         
+        
+  </div> 
+</div>
+ 
+  
+{% endblock %}
+{% block javascript %} 
+  <script type="text/javascript"  src="{% static 'javascript/libs/imagepreview.js' %}"></script> 
+{% endblock %}

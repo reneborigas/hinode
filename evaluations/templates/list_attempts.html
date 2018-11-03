@@ -1,0 +1,100 @@
+{% extends 'cmsbase.html' %}
+{% load staticfiles %}
+{% block stylesheet %} 
+<link rel="stylesheet" type="text/css" href="{% static 'javascript/libs/DataTables/datatables.min.css' %}"/>
+{% endblock %}
+{% block brand %}
+Evaluations
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li class="active">Tests Attempts</li> 
+</ul> 
+{% endblock %}
+   
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}
+<div class="container-fluid" >
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="header">
+                  <h4 class="title">Test Attempts</h4>
+                  <p class="category">Most Recent Attempts List</p>
+              </div>
+              <div class="content table-responsive table-full-width">
+                  <table class="table table-striped datatable">
+                      {% if attempts %}
+                      <thead>
+                        <th>Student</th>
+                        <th>Review Program</th>
+                        <th>Mock Test</th>
+                        <th>Section</th>
+                        <th>Attempt Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th> 
+                        <th>Total Score</th>
+                        <th>Remarks</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                        
+                      </thead>
+                      <tbody>
+                     
+                          {% for attempt in attempts %}
+                                <tr  >
+                                   
+                            
+                                    <td>{{ attempt.user.get_full_name }} </td>
+                                    <td>{{ attempt.mocktestsection.mocktest.reviewprogram}}</td>
+                                    <td>{{ attempt.mocktestsection.mocktest }}  </td>
+                                    <td>{{ attempt.mocktestsection }}  </td>
+                                    <td>{{ attempt.attempt_date|date }}  </td>
+                                    <td>{{ attempt.start_time|time }}  </td>
+                                    <td>{{ attempt.end_time|time }}  </td>  
+                                    <td>{{ attempt.totalscore }} / {{ attempt.totalitems }} items</td> 
+                                    <td>{{ attempt.getresult}} </td> 
+                                    <td>{{ attempt.getstatus}} </td>
+                                    <td><a class="btn btn-primary"  href="{% url 'view_attempt' attempt.id  %}">View Details</a></td>
+                                 
+                                  </tr> 
+                            
+                          {% endfor %}
+                        {% endif %}
+                      
+                          
+                          
+                      </tbody>
+                  </table>
+
+              </div>
+              <div class="card footer">
+                  
+              </div>
+              
+          </div>
+      </div>
+      
+
+      
+
+  </div>
+</div>
+   
+  {% endblock %}
+
+  {% block javascript %}
+  
+  <script>
+  
+   
+
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+      });
+  });
+  </script>
+  {% endblock %}

@@ -1,0 +1,55 @@
+ 
+tr:hover { 
+    background: #e4d2c175 !important; 
+ }
+ td a { 
+    display: block; 
+    border: 1px solid black;
+    padding: 16px; 
+ }
+.breadcrumb{
+    padding:2rem 4rem 0rem 2rem !important;
+}
+ .card .footer {
+    padding: 20px  !important;  
+}
+li{
+    list-style: none !important;
+}
+
+.score-icon{
+    padding: 1rem;
+}
+.score-item{
+    padding: 1rem;
+    font-size: 24px;
+}
+.score-group{
+    /* width:250px; */
+    position: relative;
+}
+
+ 
+
+.table-striped > thead > tr > th,
+.table-striped > tbody > tr > th,
+.table-striped > tfoot > tr > th,
+.table-striped > thead > tr > td,
+.table-striped > tbody > tr > td,
+.table-striped > tfoot > tr > td {
+    padding: 15px 8px !important;
+}
+
+
+.dataTables_wrapper .dataTables_info {
+    
+    padding: 10px !important;
+}
+.dataTables_wrapper .dataTables_length { 
+    padding: 10px !important;
+}
+
+.dataTables_wrapper .dataTables_filter {
+     
+    padding: 10px !important;
+}

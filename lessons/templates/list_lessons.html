@@ -1,0 +1,82 @@
+{% extends 'cmsbase.html' %}
+{% load staticfiles %}
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+  <li class="active">Lessons</li>
+</ul>
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}  
+ 
+ 
+ 
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="header">
+                  <h4 class="title">Lessons for {{ reviewprogram.title }}</h4>
+                  <p class="category">Lessons List</p>
+              </div>
+              <div class="content table-responsive table-full-width">
+                  <table class="table table-striped datatable">
+                      {% if lessons %}
+                      <thead>
+                          <th>Title</th>
+                        <th>Overview</th>
+                        
+                      </thead>
+                      <tbody>
+                       
+                          {% for lesson in lessons %}
+                                <tr class='clickable-row' data-href='{% url "edit_lesson" reviewprogram.id lesson.id  %}'>
+                                   
+                            
+                                    <td><b>{{ lesson.title }} </b> </td>
+                                    <td>{{ lesson.overview|safe }}</td>
+                                  
+                                  </tr> 
+                            
+                          {% endfor %}
+                        {% endif %}
+                      
+                          
+                          
+                      </tbody>
+                  </table>
+
+              </div>
+              <div class="card footer">
+                  <a href="{% url 'create_lesson' reviewprogram.id %}">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      Create New Lesson
+                    </a>
+              </div>
+              
+          </div>
+      </div>
+      
+
+      
+
+  </div>
+</div>
+   
+  {% endblock %}
+
+  {% block javascript %}
+  <script>
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+      });
+  });
+  </script>
+  {% endblock %}

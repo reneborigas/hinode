@@ -1,0 +1,253 @@
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+ 
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+
+{% block sidebar %} 
+
+      <h4 class="text-info bg-info time-allowance" id="remaining"></h4>
+      <div class="time-allowance mb-3 hidden"> 
+          <div class="card-body"> 
+          <h2 class="card-title">&nbsp;</h2> 
+        </div>
+      </div>
+{%  include "examnavigation.html" %} 
+ 
+{% endblock %} 
+
+
+{% block content %} 
+
+    
+ 
+      
+                 <div class="card mb-3"> 
+                   
+                        <div class="card-body"> 
+                                <h2 class="card-title">{{ mocktest.title }}</h2> 
+                        
+                                <!-- <p class="=card-text"> {{ mocktest.description }}</p> -->
+                         </div>
+                  </div>
+                 
+                   
+                     
+                    <div class="row">
+                            <div class="col-md-12"> 
+                                    <div class="card mb-3"> 
+                                        <div class="card-header">
+                                                <h5>{{ mocktestsection.title }}</h5>
+                                        </div> 
+                                       
+                                                <div class="container-fluid  card-body"> 
+                                                    <h6   class="card-text">Test Duration: {{ mocktestsection.test_time_minutes|safe }}  </h6>
+                                                    <h6   class="card-text">Passing Mark: {{ mocktestsection.passing_mark|safe }} points / {{ mocktestsection.total_no_of_items|safe }} items </h6> 
+                                                    <h6   class="card-text">Attempts: {{ mocktestsection.no_of_attempts }} / {{ mocktestsection.max_no_of_attempts }}  </h6>
+
+                                                        <p class="=card-text"> {{ mocktestsection.description|safe }}</p>
+                                                        <p class="=card-text"> {{ mocktestsection.guidelines|safe }}</p>
+                                                        
+                                                </div>
+                                
+
+                                                  <hr/>
+                                                  <form action="{% url 'view_mocktestsection' reviewprogram.id mocktest.id mocktestsection.id %}" method="post">
+                                                       {% csrf_token %}  
+                                                       <input type="hidden" name="attemptid" value="{{ attempt.id }}">
+                                                        {%  for mocktestsubsection in mocktestsubsections %}
+                        
+                                
+                                                                <div class="container-fluid card-body" id="section_{{ mocktestsubsection.id }}">
+                                                                        
+                                                                        <h4 class="card-title">{{ mocktestsubsection.title }}</h4>
+                                                                        <p  class="card-text"> {{ mocktestsubsection.description|safe }}</p>
+                                                                        <p  class="card-text"> {{ mocktestsubsection.guidelines|safe }}</p>
+                                                                        <div class="container-fluid card-body">
+                                                                                 
+                                                                                                        
+                                                                                                        <table class="table ">
+                                                                                                         
+                                                                                                          {% for exam_sentence in mocktestsubsection.mocktesttestsentences %}
+                                                                                                           
+                                                                                                          {% if exam_sentence.questions.exists %}
+                                                                                                          <thead>
+                                                                                                              <tr>
+                                                                                                                <th>   
+                                                                                                                   
+                                                                                                                  
+                                                                                                                  Sentence No. {{ exam_sentence.sentence_no|safe }}:
+                                                                                                                  {{ exam_sentence.sentence_text|safe }}
+                                                                                                                  
+                                                                                                                  
+                                                                                                                </th>
+                                                                                                              </tr>
+                                                                                                            </thead>
+
+                                                                                                          {% endif %}
+                                                                                                          {% for exam_quest in exam_sentence.questions %}
+                                                                                                      
+                                                                                                          
+                                                                                                              <tr>
+                                                                                                                <td>    
+                                                                                                                    <div class="card mb-3" id="question_{{ exam_quest.id }}"> 
+                                                                                                                        <div class="container-fluid card-body"> 
+                                                                                                                      <b>Question No. {{ exam_quest.question_no }}:</b>
+                                                                                                                      {{ exam_quest.question_text|safe }}
+                                                                                                                      <div class="row">
+                                                                                                                        {%  if exam_quest.image %}
+                                                                                                                        <div class="col-md-6">  
+                                                                                                                                <img src="{{  exam_quest.image.url }}" class="thumb-image">
+                                                                                                                              
+                                                                                                                        </div>
+                                                                                                                        {% endif %}
+                                                                                                                        {%  if exam_quest.audio_file %}
+                                                                                                                        <div class="col-md-6">  
+                                                                                                                            <!-- <audio src="/media/{{  exam_quest.audio_file  }}" preload="auto"  controls=""autobuffer >Your browser does not support the audio element.</audio>  -->
+                                                                                                                              
+                                                                                                                        </div>
+                                                                                                                        {% endif %}
+                                                                                                                       </div>
+                                                                                                                       <div class="card mb-3"> 
+                                                                                                                          <div class="container-fluid card-body"> 
+                                                                                                                              {% for choice in exam_quest.choice_set.all %} 
+                                                                                                                              {% if choice.choice_text %} 
+                                                                                                                              <div class="input-group  mb-3">
+                                                                                                                                  <div class="input-group-prepend">
+                                                                                                                                    <div class="input-group-text">
+                                                                                                                                        <input type="radio" name="{{ choice.question.id }}"
+                                                                                                                                        value="{{ choice.id }}">
+                                                                                                                                     
+                                                                                                                                    </div>
+                                                                                                                                    <div class="form-control">{{ choice.choice_text|safe }}</div>
+                                                                                                                                   
+                                                                                                                                  </div>
+                                                                                                                              </div>
+                                                                                                                              
+                                                                                                                              {% endif %}  
+                                                                                                                              {% endfor %}  
+                                                                                                                            </div>  
+                                                                                                                          </div>  
+                                                                                                                          </div>  
+                                                                                                                      </div>     
+                                                                                                                </td>
+                                                                                                              </tr> 
+
+
+                                                                                                             
+                                                                                                            {% endfor %}  
+                                                                                                          {% endfor %}
+                                                                                                          {% for exam_quest in mocktestsubsection.question_set.all %}
+                                                                                                              
+                                                                                                          {%  if not exam_quest.mocktestsentence %}
+                                                                                                          <tr>
+                                                                                                            <td>    
+                                                                                                                <div class="card mb-3" id="question_{{ exam_quest.id }}"> 
+                                                                                                                    <div class="container-fluid card-body"> 
+                                                                                                                  <b>Question No. {{ exam_quest.question_no }}:</b>
+                                                                                                                  {{ exam_quest.question_text|safe }}
+                                                                                                                  <div class="row">
+                                                                                                                    {%  if exam_quest.image %}
+                                                                                                                    <div class="col-md-6">  
+                                                                                                                            <img src="{{  exam_quest.image.url }}" class="thumb-image">
+                                                                                                                          
+                                                                                                                    </div>
+                                                                                                                    {% endif %}
+                                                                                                                    {%  if exam_quest.audio_file %}
+                                                                                                                    <div class="col-md-6">  
+                                                                                                                        <!-- <audio src="/media/{{  exam_quest.audio_file  }}" preload="auto"controls="" autobuffer>Your browser does not support the audio element.</audio>  -->
+                                                                                                                          
+                                                                                                                    </div>
+                                                                                                                    {% endif %}
+                                                                                                                 
+                                                                                                                   </div>
+                                                                                                                   
+                                                                                                                   <div class="card mb-3"> 
+                                                                                                                      <div class="container-fluid card-body"> 
+                                                                                                                          <div class="row"> 
+                                                                                                                          {% for choice in exam_quest.choice_set.all %} 
+
+                                                                                                                         
+                                                                                                                          
+                                                                                                                          <div class="col-md-6">
+                                                                                                                          <div class="input-group mb-3">
+                                                                                                                              <div class="input-group-prepend">
+                                                                                                                                  {% if choice.choice_text or    choice.image  %} 
+                                                                                                                                <div class="input-group-text">
+                                                                                                                                    <input type="radio" name="{{ choice.question.id }}"
+                                                                                                                                    value="{{ choice.id }}">
+                                                                                                                                  {% endif %}  
+                                                                                                                                </div>
+                                                                                                                                {% if choice.choice_text  %} 
+                                                                                                                                <div class="form-control">{{ choice.choice_text|safe }}</div> 
+                                                                                                                                {% endif %}  
+                                                                                                                              </div> 
+                                                                                                                              {%  if choice.image %}
+                                                                                                                           
+                                                                                                                              <img src="{{  choice.image.url }}" style="height: 250px;width:250px" class="thumb-image"> 
+                                                                                                                     
+                                                                                                                      {% endif %}
+                                                                                                                          </div> 
+                                                                                                                        
+                                                                                                                        
+                                                                                                                          
+                                                                                                                          </div>
+                                                                                                                           
+                                                                                                                         
+                                                                                                                         
+                                                                                                                          {% endfor %}  
+                                                                                                                        </div>
+                                                                                                                        </div>  
+                                                                                                                      </div>  
+                                                                                                                      </div>  
+                                                                                                                  </div>     
+                                                                                                            </td>
+                                                                                                          </tr> 
+
+                                                                                                          {% endif %}  
+                                                                                                         
+                                                                                                        {% endfor %}  
+
+
+
+                                                                                                          
+                                                                                                        </table>
+                                                                                               
+                                                                        </div>
+                                                                       
+                                                                
+                                                                </div> 
+                                                        
+                                                                {% endfor %}
+                                                        <div class="container-fluid card-body">         
+                                                                <button class="btn btn-primary" id="submit" type="submit">Submit</button>
+                                                        </div> 
+                                                 </form>
+                
+                                                    
+                                 </div>
+                            </div>
+ 
+                           
+                     
+            </div>
+            
+                   
+             
+      
+ 
+ 
+{% endblock %}
+
+
+
+
+{% block javascript %}
+  <script type="text/javascript">
+    var password = "{{ mocktestsection.password }}";
+    var raw_limit = "{{ mocktestsection.test_time_minutes|safe }}";
+  </script> 
+  
+  <script src="{% static 'javascript/jquery.js' %}"></script>  
+  <script src="{% static 'javascript/takeExam.js' %}"></script>  
+{% endblock %}

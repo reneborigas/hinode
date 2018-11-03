@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block messages %}{% include 'messages.html' %}{% endblock %}
+{% block sidebar %}
+ 
+{%  include "navigation.html" %} 
+{% endblock %} 
+
+{% block content %} 
+
+ 
+                 <div class="card mb-3"> 
+                         
+ 
+                        <div class="card-body"> 
+                                <h2 class="card-title">{{ lesson.title }}</h2> 
+                        
+                                <p class="=card-text"> {{ lesson.subtitle|safe }}</p> 
+                                <p class="=card-text"> {{ lesson.description|safe }}</p> 
+                         </div>
+                     </div>
+                  
+             
+ 
+ 
+{% endblock %}
+
+
+
+

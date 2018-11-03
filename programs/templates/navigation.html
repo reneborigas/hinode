@@ -1,0 +1,197 @@
+
+{% load staticfiles %}
+ 
+<div class="card mb-3" >
+<div class="card-header">
+        <h5>Navigation</h5>
+</div>
+<div class="card-body">
+<style>
+    /* .container {
+  width: 1000px;
+  position: relative;
+}
+
+.header {
+  clear: both;
+  margin-bottom: 10px; 
+  height: 90px;
+}
+
+.sidebar {
+  float: left;
+  width: 350px; 
+}
+
+.content {
+  float: right;
+  width: 640px;
+  border: 1px solid #000000;
+  height: 800px;
+}
+
+.footer {
+  clear: both;
+  margin-top: 10px;
+  border: 1px solid #000000;
+  height: 820px;
+} */
+</style>
+
+<ul id="menu-group-1" class="nav menu small">  
+        <li class="item-1 deeper parent active">
+
+
+            <a class="" href="#">
+                <span  data-parent="#menu-group-1" href="#sub-item-1" class="icon ti-dashboard" aria-expanded="true"><i class="icon-plus icon-white"></i></span>
+                <span class="lbl ">Dashboard</span>                      
+            </a>
+            {% url 'program' as program %}
+            {% url 'home' as home %}
+            {% url 'programitems' as programitems %}
+            {% url 'view_lesson' as view_lesson %}
+            {% url 'view_mocktest' as view_mocktest %}
+            
+            <ul class="children nav-child unstyled " id="sub-item-1">
+                    <li class="item-2 deeper parent active {% if request.path == home %} current {% endif %}">
+                            <a class="" href="{% url 'program' %}">
+                                <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-2" class="icon ti-home" aria-expanded="true"><i class="icon-plus icon-white"></i></span>
+                                <span class="lbl">Site Home</span> 
+                            </a>
+                           
+                        </li>
+                <li class="item-2 deeper parent active {% if request.path == program %} current {% endif %}">
+                    <a class="" href="{% url 'program' %}">
+                        <span  data-parent="#menu-group-1" href="#sub-item-2" class="icon ti-book" aria-expanded="true"><i class="icon-plus icon-white"></i></span>
+                        <span class="lbl">My Review Programs</span> 
+                    </a>
+                    <ul class="children nav-child unstyled" id="sub-item-2">
+                            {%  for rprogram in reviewprograms %} 
+                                     
+                                {% with programdir=rprogram.id|stringformat:"i"|add:""  %} 
+                                    
+                               
+                        <li class="item-3 deeper parent active  {% if  program|add:programdir in  request.path   %} current {% endif %}  ">
+                            <a class="" href="{% url 'program' %}{{ rprogram.id }}">
+                                <!-- <span class="icon ti-plus"><i class="icon-play"></i></span> -->
+                                <span   data-parent="#menu-group-1" href="#sub-item-3" class="icon ti-pencil" aria-expanded="true"><i class="icon-plus icon-white"></i></span>
+                 
+                                <span class="lbl">{{ rprogram.title }}</span> 
+                            </a>
+                            <ul class="children nav-child unstyled" id="sub-item-2">
+                                  
+                                    <li class="item-3 deeper parent active">
+                                        <a class="" href="#">
+                                            <span   data-parent="#menu-group-1" href="#sub-item-2" class="icon ti-files" aria-expanded="true"><i class="icon-plus icon-white"></i></span>
+                      
+                                            <span class="lbl">Lessons</span> 
+                                        </a>
+                                    </li>
+                                    <ul class="children nav-child unstyled" id="sub-item-2">
+                                            {%  for lesson in lessons %} 
+                                            {% with programdir=lesson.id|stringformat:"i"|add:""  %} 
+                                             
+                                            <li class="item-3 deeper parent active {% if  '/lessons/'|add:programdir in  request.path   %} current {% endif %} ">
+                                                <a class="" href="{% url 'view_lesson' rprogram.id lesson.id %}">
+                                                    <span class="icon ti-file"><i class="icon-play"></i></span>
+                                                    <span class="lbl">{{ lesson.title}}</span> 
+                                                </a>
+                                            </li>
+                                            {% endwith %}      
+                                           {%  endfor  %}    
+                                                         
+                                    </ul>  
+                                    <li class="item-3 deeper parent active">
+                                            <a class="" href="#">
+                                                <span   data-parent="#menu-group-1" href="#sub-item-2" class="icon ti-files" aria-expanded="true"><i class="icon-plus icon-white"></i></span>
+                          
+                                                <span class="lbl">Mock Tests</span> 
+                                            </a>
+                                        </li>
+                                        <ul class="children nav-child unstyled" id="sub-item-2">
+                                                {%  for mocktest in mocktests %} 
+                                                {% with programdir=lesson.id|stringformat:"i"|add:""  %} 
+                                                 
+                                                <li class="item-3 deeper parent active {% if  '/mocktests/'|add:programdir in  request.path   %} current {% endif %} ">
+                                                    <a class="" href="{% url 'view_mocktest' rprogram.id mocktest.id %}">
+                                                        <span class="icon ti-file"><i class="icon-play"></i></span>
+                                                        <span class="lbl">{{ mocktest.title}}</span> 
+                                                    </a>
+                                                </li>
+                                                {% endwith %}      
+                                               {%  endfor  %}    
+                                                             
+                                        </ul>  
+                                   <li class="item-3 deeper parent active {% if  '/evaluations/reviewprogram/'|add:programdir in  request.path or  '/evaluations/'|add:attempt.id in  request.path   %} current {% endif %} ">
+                                    <a class="" href="{% url 'list_students_attempts_front' rprogram.id  %}">
+                                        <span class="icon ti-pie-chart"><i class="icon-play"></i></span>
+                                        <span class="lbl">Evaluations</span> 
+                                    </a>
+                                </li>                  
+                            </ul>  
+                         
+                        </li>
+                        {% endwith %}
+                        {%  endfor  %}                                
+                    </ul>
+                  
+                </li>
+                <!-- <li class="item-5 deeper parent">
+                    <a class="" href="#">
+                        <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-5" class="icon ti-plus"><i class="icon-plus icon-white"></i></span>
+                        <span class="lbl">Overall Evaluation</span> 
+                    </a>
+                    <ul class="children nav-child unstyled" id="sub-item-5">
+                        <li class="item-6">
+                            <a class="" href="#">
+                                <span class="icon ti-plus"><i class="icon-play"></i></span>
+                                <span class="lbl">Menu 2.1</span>                                    
+                            </a>
+                        </li>
+                        <li class="item-7">
+                            <a class="" href="#">
+                                <span class="icon ti-plus"><i class="icon-play"></i></span>
+                                <span class="lbl">Menu 2.2</span>                                    
+                            </a>
+                        </li>
+                    </ul>
+                </li> -->
+                <li class="item-5 deeper parent">
+                        <a class="" href="#">
+                            <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-5" class="icon ti-bookmark"><i class="icon-plus icon-white"></i></span>
+                            <span class="lbl">Bookmarks</span> 
+                        </a>
+                         
+                </li>
+            </ul>
+        </li>
+
+                     
+    </ul>    
+</div>    
+ 
+</div>
+ 
+{% block javascript %}  
+  <script src="{% static 'javascript/jquery.js' %}"></script>   
+{% endblock %}
+
+    <!-- <script>
+            !function ($) {
+            
+            // Le left-menu sign
+            /* for older jquery version
+            $('#left ul.nav li.parent > a > span.sign').click(function () {
+                $(this).find('i:first').toggleClass("icon-minus");
+            }); */
+            
+            $(document).on("click","#left ul.nav li.parent > a > span.sign", function(){          
+                $(this).find('i:first').toggleClass("icon-minus");      
+            }); 
+            
+            // Open Le current menu
+            $("#left ul.nav li.parent.active > a > span.sign").find('i:first').addClass("icon-minus");
+            $("#left ul.nav li.current").parents('ul.children').addClass("in");
+        
+        }(window.jQuery);
+         </script> -->

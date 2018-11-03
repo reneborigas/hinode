@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% load get_item %}
+
+{% block navigation %}
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li class="active">{{ reviewprogram.title }}</li>
+{% endblock %}
+
+{% block header %}Viewing Review Program {{ reviewprogram.name }}{% endblock %}
+
+{% block dashboard %}
+  <table class="table table-hover ">
+    <tr>
+      <th>reviewprogram creator:</th>
+      <td>{{ reviewprogram.instructor }}</td>
+    </tr>
+    <tr>
+      <th>Creator email:</th>
+      <td>{{ reviewprogram.instructor.email }}</td>
+    </tr>
+    <tr>
+      <th>reviewprogram description:</th>
+      <td>{{ reviewprogram.description }}</td>
+    </tr>
+    <tr>
+      <th>reviewprogram created:</th>
+      <td>{{ reviewprogram.created|date }}</td>
+    </tr>
+    <tr>
+      <th>reviewprogram last updated:</th>
+      <td>{{ reviewprogram.updated|date }}</td>
+    </tr>
+  </table>
+  <h4 class="text-center"><a class="btn" id="show-mocktests">Toggle reviewprogram mocktests</a></h4>
+    <div id="mocktests">
+      {% for mocktest in mocktests %}
+        <a class="list-group-item"
+          href="{% url 'view_mocktest' reviewprogram.id mocktest.id %}">
+          <h4 class="list-group-item-heading">{{ mocktest.name }}</h4>
+          <p class="list-group-item-description">{{ mocktest.description }}</p>
+          <p class="list-group-item-description"> {{ scores|get_item:mocktest }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  <h4 class="text-center"><a class="btn" id="show-participants">Toggle reviewprogram participants</a></h4>
+  <table class="table table-hover hidden" id="participants">
+    {% for participant in reviewprogram.participants.all %}
+      {% if participant != request.user %}
+        <tr>
+          <td>
+            {{ participant }}
+          </td>
+          <td>
+            {{ participant.email }}
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </table>
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript" src="/static/togglePanels.js"></script>
+  
+ 
+
+
+{% endblock %}

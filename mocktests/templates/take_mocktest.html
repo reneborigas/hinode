@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load to_char %}
+
+{% block dashboard %}
+  <h3 class="text-primary text-center">{{ exam.name }}</h3>
+  <h4 class="text-info bg-info" id="remaining"></h4>
+  <form action="{% url 'take_exam' course.id exam.id %}" method="post">
+    {% csrf_token %}  
+    <table class="table spaced">
+      {% for exam_quest in exam_questions %}
+        <thead>
+          <tr>
+            <th>
+              <b>Question {{ forloop.counter }}:</b>
+              {{ exam_quest.question.question_text }}
+            </th>
+          </tr>
+        </thead>
+        {% for choice in exam_quest.question.choice_set.all %}  
+          <tr class="choices">
+            <td>
+              <input type="radio" name="{{ choice.question.id }}"
+                value="{{ choice.id }}">
+              {{ forloop.counter|to_char }}) {{ choice.choice_text }}
+            </td>
+          </tr>
+        {% endfor %}  
+      {% endfor %}
+    </table>
+    <button class="btn btn-primary" id="submit" type="submit">Submit</button>
+  </form>
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript">
+    var password = "{{ exam.password }}";
+    var raw_limit = "{{ exam.time_limit }}";
+  </script>
+  <script type="text/javascript" src="/static/takeExam.js"></script>
+{% endblock %}

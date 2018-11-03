@@ -1,0 +1,30 @@
+
+{% load staticfiles %}
+ 
+<div class="card mb-3" >
+<div class="card-header">
+        <h5>Mock Tests Navigation</h5>
+</div>
+<div class="card-body">
+    {%  for mocktestsubsection in mocktestsubsections %}
+    <div class="row mb-3">
+        <div class="col-sm-12">
+            <a class="exam-nav-link" href="#section_{{ mocktestsubsection.id }}">
+             <b>{{ mocktestsubsection.title }}</b> 
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        {% for exam_question in mocktestsubsection.questions %}  
+            <a href="#question_{{ exam_question.id }}" class="exam-nav-link mb-2">
+                <div class="exam-nav-button"> 
+                     <b> {{ exam_question.question_no }}</b>
+                </div>
+            </a>
+            
+        {% endfor%}
+    </div>
+    {% endfor%}
+</div>
+</div>
+ 

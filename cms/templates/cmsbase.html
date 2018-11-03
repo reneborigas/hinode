@@ -1,0 +1,150 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>JLPT N4 Review Program - Admin</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+
+    <link rel='stylesheet' href='{% static "css/paper-dashboard/bootstrap.min.css" %}'/>
+   
+    <!-- Custom styles for this template --> 
+    <link rel="stylesheet" type="text/css" href="{% static 'javascript/libs/DataTables/datatables.min.css' %}"/>
+    <link rel='stylesheet' href='{% static "css/paper-dashboard/animate.min.css" %}'/>
+    <link rel='stylesheet' href='{% static "css/paper-dashboard/paper-dashboard.css" %}'/> 
+    <link rel='stylesheet' href='{% static "css/paper-dashboard/demo.css" %}'/>
+    <link rel='stylesheet' href='{% static "css/paper-dashboard/cmsmain.css" %}'/>
+    {% block stylesheet %} 
+    {% endblock %}
+    <!--  Fonts and icons     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'> 
+    <link rel='stylesheet' href='{% static "css/paper-dashboard/themify-icons.css" %}'/>
+
+</head>
+<body>
+
+<div class="wrapper">
+  {%  include "cmssidebar.html" %}
+
+
+    <div class="main-panel">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                  
+                    <a class="navbar-brand" href="#">
+                      {% block brand %}
+                      {% endblock %}
+                    </a>
+
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="ti-panel"></i>
+								<p>Stats</p>
+                            </a>
+                        </li> -->
+                        <li>
+                          <a href="#">
+              <i class="ti-settings"></i>
+              <p>Settings</p>
+                          </a>
+                      </li>
+                        <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-user"></i> 
+								  	<p>Logged in as {{ user.username }}</p>
+									<b class="caret"></b>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="{% url 'profile' %}">Profile</a></li>
+                                <li><a href="{% url 'account_logout' %}">Logout</a></li> 
+                              </ul>
+                        </li>
+					    
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        
+        {% block breadcrumbs %}
+                    
+       {% endblock %}
+       
+    
+      <div class="content">
+        {% block content %}
+        {% endblock %}
+      </div>
+     
+        
+
+
+      {% include 'cmsfooter.html' %}
+
+    </div>
+</div>
+
+
+</body>
+
+    <!--   Core JS Files   -->
+    <script type="text/javascript"  src="{% static 'javascript/libs/paper-dashboard/jquery.min.js' %}"></script> 
+    <script type="text/javascript"  src="{% static 'javascript/libs/paper-dashboard/bootstrap.min.js' %}"></script> 
+    
+  <!--  Checkbox, Radio & Switch Plugins -->
+  <!-- <script type="text/javascript"  src="{% static 'javascript/libs/paper-dashboard/bootstrap-checkbox-radio.js' %}"></script>  -->
+    
+ 
+	<!--  Charts Plugin --> 
+  <script type="text/javascript"  src="{% static 'javascript/libs/paper-dashboard/chartist.min.js' %}"></script> 
+   
+    <!--  Notifications Plugin    --> 
+    <script type="text/javascript"  src="{% static 'javascript/libs/paper-dashboard/bootstrap-notify.js' %}"></script> 
+   
+    <!--  Google Maps Plugin    -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+    <!-- Paper Dashboard Core javascript and methods for Demo purpose --> 
+  <script type="text/javascript"  src="{% static 'javascript/libs/paper-dashboard/paper-dashboard.js' %}"></script> 
+   
+
+	<!-- Paper Dashboard DEMO methods, don't include it in your project! --> 
+  <script type="text/javascript"  src="{% static 'javascript/libs/paper-dashboard/demo.js' %}"></script> 
+  <script type="text/javascript"  src="{% static 'javascript/libs/DataTables/datatables.min.js' %}"></script> 
+ 
+  <script> 
+        $(document).ready(function() {
+      var oTable = $('.datatable').dataTable({
+          // ...
+          // "processing": true,
+          // "serverSide": true,
+          // "ajax": "{% url 'order_list_json' %}"
+      });
+      // ...
+       });
+    </script>
+	 
+    {% block javascript %}
+    {% endblock %}
+    
+    {% block messages %}{% endblock %}
+</html>

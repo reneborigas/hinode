@@ -1,0 +1,48 @@
+
+{% extends 'cmsbase.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+{% block brand %}
+Manage Contents 
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb"> 
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+  <li class="active">Participants</li>
+</ul>
+{% endblock %}
+
+{% block content %}
+ 
+  <div class="card">
+      <div class="header">
+          <h4 class="title">Editing Students for {{ reviewprogram.title }}</h4>
+      </div>
+      <div class="content">
+      <div class="center">
+        <input type="text" class="textinput textInput form-control" id="search" placeholder="Filter participants"
+          onkeyup="searchFilter()">
+        <label class="btn btn-primary" for="submit" id="label-submit">Update</label> 
+      </div>
+    
+    <form class="center" action="{% url 'edit_students' reviewprogram.id %}"
+    method="POST"> 
+    
+    {% csrf_token %}
+    {{ form.media }}  
+    {{form.as_p}}
+    {% block additional_forms %}{% endblock %}
+    <button class="hidden" id="submit" type="submit"></button> 
+    </form> 
+
+  </div>
+</div>
+
+
+
+  
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'javascript/searchFilter.js' %}"></script>  
+{% endblock %}

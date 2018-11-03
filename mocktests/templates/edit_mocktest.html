@@ -1,0 +1,61 @@
+{% extends 'cmsbase.html' %}
+{% load crispy_forms_tags %}
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+  <li><a href="{% url 'list_mocktests' reviewprogram.id %}">Mock Tests</a></li>
+  <li class="active">{{ mocktest.title }}</li>
+</ul>
+{% endblock %}
+
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+{% block content %}
+    
+<div class="card">
+    <div class="header">
+        <h4 class="title">Editing Mock Test {{ mocktest.title }}</h4>
+    </div>
+    <div class="content">
+
+ 
+  <form class="center" action="{% url 'edit_mocktest' reviewprogram.id mocktest.id  %}"
+  method="POST"> 
+  {% csrf_token %}
+  {{ form.media }}
+  {{form|crispy}}
+  {% block additional_forms %}{% endblock %}
+
+  <button class="btn btn-primary" id="submit" type="submit" name="update">
+      Update
+    </button>
+    <button class="btn btn-danger" id="delete" name="delete"
+      onclick="return confirmDelete()">
+      Delete
+    </button>
+  </form>      
+  </div>
+  
+  </div>
+  <div class="card">
+      <div class="content">
+          <a href="{% url 'view_sections' reviewprogram.id mocktest.id %}">
+              <span class="ti-menu"></span>
+              View Sections
+            </a> <br>   
+      
+        <br>
+        <a href="{% url 'view_mocktest_results' reviewprogram.id mocktest.id %}">
+          <span class="ti-menu-alt"></span>
+          View results
+        </a>
+      </div> 
+    </div>
+   
+{% endblock %} 
+
+ 

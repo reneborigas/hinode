@@ -1,0 +1,86 @@
+{% extends 'cmsbase.html' %}
+
+{% load staticfiles %}
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+  <li><a href="{% url 'list_mocktests' reviewprogram.id %}">Mock Tests</a></li>
+  <li><a href="{% url 'edit_mocktest' reviewprogram.id mocktest.id %}">{{ mocktest.title }}</a></li>
+  <li class="active">Sections</li>
+</ul>
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+ 
+{% block content %}  
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Viewing Sections for {{ mocktest.title }}</h4>
+                    <p class="category">Sections List</p>
+                </div>
+                <div class="content table-responsive table-full-width">
+                    <table class="table table-striped datatable">
+                        {% if mocktest_sections %}
+                        <thead>
+                            <th>Title</th>
+                          <th>Overview</th>
+                          
+                        </thead>
+                        <tbody>
+                           
+                            {% for mocktest_section in mocktest_sections %}
+                                  <tr class='clickable-row' data-href='{% url "edit_section" reviewprogram.id mocktest.id mocktest_section.id  %}'>
+                                     
+                              
+                                      <td><b>{{ mocktest_section.title }} </b> </td>
+                                      <td>{{ mocktest_section.description|safe }}</td>
+                                    
+                                    </tr> 
+                              
+                            {% endfor %}
+                          {% endif %}
+                        
+                            
+                            
+                        </tbody>
+                    </table>
+  
+                </div>
+                <div class="card footer">
+                    <a href="{% url 'create_section' reviewprogram.id mocktest.id %}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Create New Section
+                      </a>  
+                </div>
+                
+            </div>
+        </div>
+        
+  
+        
+  
+    </div>
+  </div>
+    
+ 
+{% endblock %}  
+{% block javascript %}
+<script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+
+
+{% endblock %}

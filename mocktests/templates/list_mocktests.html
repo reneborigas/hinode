@@ -1,0 +1,81 @@
+{% extends 'cmsbase.html' %}
+{% load staticfiles %}
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+  <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+  <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+  <li class="active">Mock Tests</li>
+</ul>
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+
+{% block header %}Lessons for {{ reviewprogram.title }}{% endblock %}
+{% block content %}  
+  
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Mock Tests for {{ reviewprogram.title }}</h4>
+                    <p class="category">Mock Tests List</p>
+                </div>
+                <div class="content table-responsive table-full-width">
+                    <table class="table table-striped datatable">
+                        {% if mocktests %}
+                        <thead>
+                            <th>Title</th>
+                          <th>Subtitle</th>
+                          
+                        </thead>
+                        <tbody>
+                          
+                            {% for mocktest in mocktests %}
+                                  <tr class='clickable-row' data-href='{% url "edit_mocktest" reviewprogram.id mocktest.id  %}'>
+                                     
+                              
+                                      <td><b>{{ mocktest.title }} </b> </td>
+                                      <td>{{ mocktest.subtitle|safe }}</td>
+                                    
+                                    </tr> 
+                              
+                            {% endfor %}
+                          {% endif %}
+                        
+                            
+                            
+                        </tbody>
+                    </table>
+  
+                </div>
+                <div class="card footer">
+                    <a href="{% url 'create_mocktest' reviewprogram.id %}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Create New Mock Test
+                      </a>
+                </div>
+                
+            </div>
+        </div>
+        
+  
+        
+  
+    </div>
+  </div>
+{% endblock %}  
+{% block javascript %}
+<script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+
+ 
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'cmsbase.html' %}
+{% load crispy_forms_tags %} 
+{% load staticfiles %}
+{% block brand %}
+Manage Contents
+{% endblock %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li><a href="{% url 'instructor_reviewprograms' %}">Review Programs</a></li>
+    <li><a href="{% url 'edit_reviewprogram' reviewprogram.id %}">{{ reviewprogram.title }}</a></li>
+    <li><a href="{% url 'list_mocktests' reviewprogram.id %}">Mock Tests</a></li>
+    <li><a href="{% url 'edit_mocktest' reviewprogram.id mocktest.id %}">{{ mocktest.title}}</a></li>
+    <li><a href="{% url 'view_sections' reviewprogram.id mocktest.id %}">Sections</a></li>
+    <li><a href="{% url 'edit_section' reviewprogram.id mocktest.id mocktestsection.id %}">{{mocktestsection.title}}</a></li>
+    <li><a href="{% url 'view_subsections' reviewprogram.id mocktest.id mocktestsection.id  %}">Sub Sections</a></li>
+    <li><a href="{% url 'edit_subsection' reviewprogram.id mocktest.id mocktestsection.id mocktestsubsection.id %}">{{mocktestsubsection.title}}</a></li>
+    <li><a href="{% url 'view_mocktest_sentences' reviewprogram.id mocktest.id mocktestsection.id mocktestsubsection.id %}">Sentences</a></li> 
+    <li class="active">Sentence No. {{ mocktest_sentence.mocktest_sentence_no}}</li>
+</ul>
+{% endblock %}
+
+{% block messages %}{% include 'showmessages.html' %}{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="header">
+        <h4 class="title">Editing Sentence No. {{mocktestsentence.sentence_no}}</h4>
+    </div>
+    <div class="content">
+
+<form class="center" action="{% url 'edit_mocktest_sentence' reviewprogram.id mocktest.id mocktestsection.id mocktestsubsection.id mocktestsentence.id  %}"
+method="POST" enctype="multipart/form-data"> 
+{% csrf_token %}
+{{ form.media }}
+{{form|crispy}}
+<div class="row">
+  <div id="image-holder" class="col-md-5">
+  </div>
+</div>
+ 
+
+ 
+  <button class="btn btn-primary" id="submit" type="submit" name="update">
+    Update
+  </button>
+  <button class="btn btn-danger" id="delete" name="delete"
+    onclick="return confirmDelete()">
+    Delete
+  </button>
+
+</form>   
+</div>
+  
+</div> 
+<div class="card">
+    <div class="header">
+        <h4 class="title">Questions for Sentence No. {{mocktestsentence.sentence_no}}</h4>
+    </div>
+    <div class="content">
+
+{% for question in questions %}
+<a class="list-group-item"
+  href="{% url 'edit_question' reviewprogram.id mocktest.id mocktestsection.id mocktestsubsection.id question.id %}">
+  <h4 class="list-group-item-heading">Question No. {{ question.question_no }}</h4>
+  <div class="list-group-item-description">{{ question.question_text|safe }}</div>
+</a>
+{% endfor %}
+</div>
+  
+</div>
+ 
+  
+
+{% endblock %}
+
+{% block javascript %} 
+  <script type="text/javascript"  src="{% static 'javascript/libs/imagepreview.js' %}"></script> 
+{% endblock %}
